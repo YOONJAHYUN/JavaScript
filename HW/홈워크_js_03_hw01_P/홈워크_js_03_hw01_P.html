@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div></div>
+    <script>
+      // 이곳에 코드를 작성합니다.
+      const ssafy = document.createElement("a");
+      ssafy.setAttribute("href", "https://www.ssafy.com/");
+      ssafy.innerText = "SSAFY";
+      // 색바꾸기
+      ssafy.style.color = "#20c997";
+      // 폰트 사이즈 바꾸기
+      ssafy.style.fontSize = "100px";
+      // 하이퍼링크 이동 금지
+      ssafy.removeAttribute("href");
+      const div = document.querySelector("div");
+      div.appendChild(ssafy);
+    </script>
+  </body>
+</html>
