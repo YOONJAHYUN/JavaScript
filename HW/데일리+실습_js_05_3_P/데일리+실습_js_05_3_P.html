@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const API_KEY = "a88cf8e409c13ebb8607599ba802a3d7";
+
+    const language = "ko-KR";
+    const page = "1";
+
+    const URL = "https://api.themoviedb.org/3/movie/popular/";
+    const h1 = document.createElement("h1");
+    h1.innerText = "인기 영화들";
+    // document.body.appendChild(h1);
+
+    const ul = document.createElement("ul");
+    document.body.append(h1, ul);
+    axios({
+      method: "get",
+      url: URL,
+      params: {
+        api_key: API_KEY,
+        language,
+        page,
+      },
+    }).then((response) => {
+      // 인기많은 영화 불러오기
+      const popularMovies = response.data.results.filter((movie) => {
+        return movie.vote_average >= 7;
+      });
+
+      popularMovies.forEach((movie) => {
+        const li = document.createElement("li");
+        li.innerText = movie.title;
+        ul.appendChild(li);
+      });
+    });
+  </script>
+</html>
