@@ -1,0 +1,70 @@
+{% extends 'base.html' %} {% block content %}
+<h1>INDEX</h1>
+<a href="{% url 'articles:create' %}">작성하기</a>
+<hr />
+
+{% for article in articles %}
+<p>
+  [{{article.id}}]
+  <a href="{% url 'articles:detail' article.pk %}" id="article-title"
+    >{{article.title}}</a
+  >
+  - 작성자:
+  <a href="{% url 'accounts:profile' article.user.username %}"
+    >{{article.user}}</a
+  >
+</p>
+<p>이 게시글을 좋아요 하는 수 : {{ article.like_users.count }}</p>
+{% if request.user.is_authenticated %}
+<div>
+  <form class="like-form" data-article-id="{{article.pk}}">
+    {% csrf_token %} {% if request.user in article.like_users.all %}
+    <input id="like-{{article.pk}}" type="submit" value="안좋아해!" />
+    {% else %}
+    <input id="like-{{article.pk}}" type="submit" value="좋아해!" />
+    {% endif %}
+  </form>
+</div>
+{% endif %}
+<hr />
+{% endfor %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  const like_forms = document.querySelectorAll(".like-form");
+
+  const csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+
+  like_forms.forEach((form) => {
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const article_pk = event.target.dataset.articleId;
+
+      axios({
+        method: "post",
+        url: `http://127.0.0.1:8000/articles/${article_pk}/likes/`,
+        headers: {
+          "X-CSRFToken": csrftoken,
+        },
+      })
+        .then(function (response) {
+          const like_btn = document.querySelector(`#like-${article_pk}`);
+          const isliked = response.data.is_liked;
+          // console.log(isliked);
+          console.log(like_btn);
+          if (isliked === true) {
+            // 안좋아요 바로 표시
+            like_btn.value = "좋아해! 취소";
+            console.log("좋취");
+          } else {
+            like_btn.value = "좋아해!";
+            console.log("조아");
+          }
+        })
+        .catch(function (error) {
+          console.log(error.response);
+        });
+    });
+  });
+</script>
+
+{% endblock content %}
