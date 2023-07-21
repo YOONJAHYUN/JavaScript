@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script>
+      // window가 다 로드 되면 해당 실행해라
+      window.onload = () => {
+        const h1 = document.querySelector("h1");
+        const box = document.querySelector(".box");
+
+        const button = document.querySelector("button");
+
+        button.addEventListener("mouseenter", () => {
+          console.log(1);
+        });
+
+        window.addEventListener("click", (e) => {
+          box.style.top = e.pageY + "px";
+          box.style.left = e.pageX + "px";
+        });
+
+        // const loop = () => {
+        //   targetX += (x - targetX) * speed;
+        //   targetY += (y - targetY) * speed;
+
+        //   box.style.top = targetY.toFixed(2) + "px";
+        //   box.style.left = targetX.toFixed(2) + "px";
+        //   window.requestAnimationFrame(loop);
+        // };
+        // loop();
+      };
+    </script>
+  </head>
+  <body>
+    <h1></h1>
+
+    <div class="box">
+      <img src="butterfly.gif" alt="나비" />
+    </div>
+
+    <button>버튼</button>
+  </body>
+  <style>
+    body {
+      background-color: #13adcc;
+    }
+
+    h1 {
+      font-size: 50px;
+      padding: 20px;
+    }
+
+    .box {
+      width: 60px;
+      height: 60px;
+      /* background-color: black; */
+      position: absolute;
+      top: 50%;
+      left: 50px;
+      transform: translate(-50%, -50%);
+      /* css로만으로도 부드러운 효과 가능 */
+      transition: all 0.5s ease-in-out;
+      transition: all 1.5s cubic-bezier(0.8, -0.6, 0.23, 1.65);
+    }
+
+    .box img {
+      width: 160px;
+    }
+
+    button {
+      padding: 40px 100px;
+      background-color: black;
+      color: #fff;
+      font-size: 30px;
+      transition: all 0.5s ease-in-out;
+    }
+
+    button:hover {
+      padding: 45px 120px;
+      background-color: #39023f;
+    }
+  </style>
+</html>
